@@ -1,0 +1,7 @@
+name = "PalmTree"
+uuid = "103a96ca-e421-11e8-0497-536c6ddde151"
+authors = ["arzwa <arthur.zwaenepoel@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
