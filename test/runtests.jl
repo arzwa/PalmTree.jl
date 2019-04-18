@@ -1,5 +1,6 @@
-using Test
-include("../src/PalmTree.jl")
-using .PalmTree
+using PalmTree
+using PhyloTrees
 
-drawtree(randomtree(10))
+t = readtree("test/morris-9taxa.nw")
+drawtree(t)
+coltree(t, rand(length(t.tree.nodes)))

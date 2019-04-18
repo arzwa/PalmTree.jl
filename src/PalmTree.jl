@@ -2,17 +2,13 @@ __precompile__()
 
 module PalmTree
 
-    using Luxor
+    import Luxor
     using PhyloTrees
-    using Random
+    using Printf
+    using ColorSchemes
 
-    export
-        LabeledTree,
-        randomtree,
-        drawtree
+    export drawtree, coltree
 
-    include("types.jl")
-    include("utils.jl")
-    include("minimal.jl")
+    include("main.jl")
 
 end # module

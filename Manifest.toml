@@ -1,8 +1,8 @@
 [[AbstractFFTs]]
-deps = ["Compat", "LinearAlgebra"]
-git-tree-sha1 = "8d59c3b1463b5e0ad05a3698167f85fac90e184d"
+deps = ["LinearAlgebra", "Test"]
+git-tree-sha1 = "dfaf23dba016254bb0eed6de326510caea2889bf"
 uuid = "621f4979-c628-5d54-868e-fcf4e3e8185c"
-version = "0.3.2"
+version = "0.4.0"
 
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
@@ -15,9 +15,9 @@ version = "0.8.10"
 
 [[BinaryProvider]]
 deps = ["Libdl", "Pkg", "SHA", "Test"]
-git-tree-sha1 = "9930c1a6cd49d9fcd7218df6be417e6ae4f1468a"
+git-tree-sha1 = "055eb2690182ebc31087859c3dd8598371d3ef9e"
 uuid = "b99e7846-7c00-51b0-8f62-c81ae34c0232"
-version = "0.5.2"
+version = "0.5.3"
 
 [[BufferedStreams]]
 deps = ["Compat", "Test"]
@@ -25,11 +25,23 @@ git-tree-sha1 = "5d55b9486590fdda5905c275bb21ce1f0754020f"
 uuid = "e1450e63-4bb3-523b-b2a4-4ffa8c0fd77d"
 version = "1.0.0"
 
+[[CSTParser]]
+deps = ["LibGit2", "Test", "Tokenize"]
+git-tree-sha1 = "437c93bc191cd55957b3f8dee7794b6131997c56"
+uuid = "00ebfdb7-1f24-5e51-bd34-a7502290713f"
+version = "0.5.2"
+
 [[Cairo]]
 deps = ["BinDeps", "Colors", "Compat", "Graphics", "Homebrew", "Libdl", "WinRPM"]
 git-tree-sha1 = "a427098d5aa2808504d94b8ed9fc5740ceaf71d0"
 uuid = "159f3aea-2a34-519c-b102-8c37f9878175"
 version = "0.5.6"
+
+[[ColorSchemes]]
+deps = ["Colors", "Random", "Test"]
+git-tree-sha1 = "f72e71a1f062666786845175d24c8ae10235c359"
+uuid = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
+version = "3.2.0"
 
 [[ColorTypes]]
 deps = ["FixedPointNumbers", "Random", "Test"]
@@ -51,21 +63,21 @@ version = "0.9.5"
 
 [[Compat]]
 deps = ["Base64", "Dates", "DelimitedFiles", "Distributed", "InteractiveUtils", "LibGit2", "Libdl", "LinearAlgebra", "Markdown", "Mmap", "Pkg", "Printf", "REPL", "Random", "Serialization", "SharedArrays", "Sockets", "SparseArrays", "Statistics", "Test", "UUIDs", "Unicode"]
-git-tree-sha1 = "2d9e14d19bad3f9ad5cc5e4cffabc3cfa59de825"
+git-tree-sha1 = "84aa74986c5b9b898b0d1acaf3258741ee64754f"
 uuid = "34da2185-b29b-5c13-b0c7-acf172513d20"
-version = "1.3.0"
+version = "2.1.0"
 
 [[Conda]]
 deps = ["Compat", "JSON", "VersionParsing"]
-git-tree-sha1 = "fb86fe40cb5b35990e368709bfdc1b46dbb99dac"
+git-tree-sha1 = "b625d802587c2150c279a40a646fba63f9bd8187"
 uuid = "8f4d0f93-b110-5947-807f-2305c1781a2d"
-version = "1.1.1"
+version = "1.2.0"
 
 [[DataStructures]]
 deps = ["InteractiveUtils", "OrderedCollections", "Random", "Serialization", "Test"]
-git-tree-sha1 = "8fc6e166e24fda04b2b648d4260cdad241788c54"
+git-tree-sha1 = "ca971f03e146cf144a9e2f2ce59674f5bf0e8038"
 uuid = "864edb3b-99cc-5e75-8d2d-829cb0a9cfe8"
-version = "0.14.0"
+version = "0.15.0"
 
 [[Dates]]
 deps = ["Printf"]
@@ -87,9 +99,9 @@ version = "0.2.4"
 
 [[FileIO]]
 deps = ["Pkg", "Random", "Test"]
-git-tree-sha1 = "481e4db939f005db39f7296599d0543c0744fe30"
+git-tree-sha1 = "da32159d4a2e526338506685e280e39ed2f18961"
 uuid = "5789e2e9-d7fb-5bc7-8068-2c6fae9b9549"
-version = "1.0.2"
+version = "1.0.6"
 
 [[FixedPointNumbers]]
 deps = ["Test"]
@@ -111,15 +123,15 @@ version = "0.2.1"
 
 [[Homebrew]]
 deps = ["BinDeps", "InteractiveUtils", "JSON", "Libdl", "Test", "Unicode"]
-git-tree-sha1 = "5582ec74f735cf8d12e562a2e65c47f34063bd51"
+git-tree-sha1 = "f01fb2f34675f9839d55ba7238bab63ebd2e531e"
 uuid = "d9be37ee-ecc9-5288-90f1-b9ca67657a75"
-version = "0.7.0"
+version = "0.7.1"
 
 [[ImageCore]]
 deps = ["ColorTypes", "Colors", "FFTW", "FixedPointNumbers", "Graphics", "MappedArrays", "OffsetArrays", "PaddedViews", "Random", "Statistics", "Test"]
-git-tree-sha1 = "5e7b1f49c80541860e08a7ea91805a24c1641f19"
+git-tree-sha1 = "bd41f7febe7b4d7914c08c5b6d0a69dcd627e3b9"
 uuid = "a09fc81d-aa75-5fe9-8630-4744c3626534"
-version = "0.7.3"
+version = "0.7.4"
 
 [[ImageMagick]]
 deps = ["BinaryProvider", "ColorTypes", "FileIO", "FixedPointNumbers", "ImageCore", "InteractiveUtils", "Libdl", "Pkg", "Random", "Test"]
@@ -133,21 +145,21 @@ uuid = "b77e0a4c-d291-57a0-90e8-8db25a27a240"
 
 [[JSON]]
 deps = ["Dates", "Distributed", "Mmap", "Sockets", "Test", "Unicode"]
-git-tree-sha1 = "fec8e4d433072731466d37ed0061b3ba7f70eeb9"
+git-tree-sha1 = "1f7a25b53ec67f5e9422f1f551ee216503f4a0fa"
 uuid = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-version = "0.19.0"
+version = "0.20.0"
 
 [[Juno]]
 deps = ["Base64", "Logging", "Media", "Profile", "Test"]
-git-tree-sha1 = "3c29a199713e7ec62cfdc11f44d7760219d5f658"
+git-tree-sha1 = "4e4a8d43aa7ecec66cadaf311fbd1e5c9d7b9175"
 uuid = "e5e0dc1b-0480-54bc-9374-aad01c23163d"
-version = "0.5.3"
+version = "0.7.0"
 
 [[LibCURL]]
-deps = ["BinaryProvider", "Compat", "Libdl", "Printf"]
-git-tree-sha1 = "6339c87cb76923a3cf947fcd213cbc364355c9c9"
+deps = ["BinaryProvider", "Libdl", "Printf", "Test"]
+git-tree-sha1 = "d051c8057512ca38a273aaa514145a0b25f24d46"
 uuid = "b27032c2-a3e7-50c8-80cd-2d36dbcbfd21"
-version = "0.4.1"
+version = "0.5.0"
 
 [[LibExpat]]
 deps = ["Compat"]
@@ -175,16 +187,16 @@ uuid = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 uuid = "56ddb016-857b-54e1-b83d-db4d58db5568"
 
 [[Luxor]]
-deps = ["Cairo", "Colors", "Dates", "DelimitedFiles", "FileIO", "ImageMagick", "Juno", "QuartzImageIO", "Random", "Test"]
-git-tree-sha1 = "fc1bba550e2babcd818fafbdb0a6d9eda29156ca"
+deps = ["Cairo", "Colors", "Dates", "FileIO", "ImageMagick", "Juno", "QuartzImageIO", "Random", "Test"]
+git-tree-sha1 = "c98606c89cd94ae3a95b45a9af9e0963fd461f5e"
 uuid = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
-version = "1.1.3"
+version = "1.2.0"
 
 [[MacroTools]]
-deps = ["Compat"]
-git-tree-sha1 = "c443e1c8d58a4e9f61b708ad0a88286c7042145b"
+deps = ["CSTParser", "Compat", "DataStructures", "Test"]
+git-tree-sha1 = "daecd9e452f38297c686eba90dba2a6d5da52162"
 uuid = "1914dd2f-81c6-5fcd-8719-6d5c9610ff09"
-version = "0.4.4"
+version = "0.5.0"
 
 [[MappedArrays]]
 deps = ["Test"]
@@ -204,9 +216,9 @@ version = "0.5.0"
 
 [[Missings]]
 deps = ["Dates", "InteractiveUtils", "SparseArrays", "Test"]
-git-tree-sha1 = "adc26d2ee85a49c413464110d922cf21efc9d233"
+git-tree-sha1 = "d1d2585677f2bd93a97cfeb8faa7a0de0f982042"
 uuid = "e1d29d7a-bbdc-5cf2-9ac0-f12de2c33e28"
-version = "0.3.1"
+version = "0.4.0"
 
 [[Mmap]]
 uuid = "a63ad114-7e13-5084-954f-fe012c677804"
@@ -219,21 +231,28 @@ version = "0.3.2"
 
 [[OffsetArrays]]
 deps = ["DelimitedFiles", "Test"]
-git-tree-sha1 = "f8cd140824f74f2948ff8660bc2292e16d29c1b7"
+git-tree-sha1 = "e6893807f09c1d5517861ded8b203cb96cb7d44a"
 uuid = "6fe1bfb0-de20-5000-8ca7-80f57d26f881"
-version = "0.8.1"
+version = "0.10.0"
 
 [[OrderedCollections]]
 deps = ["Random", "Serialization", "Test"]
-git-tree-sha1 = "85619a3f3e17bb4761fe1b1fd47f0e979f964d5b"
+git-tree-sha1 = "c4c13474d23c60d20a67b217f1d7f22a40edf8f1"
 uuid = "bac558e1-5e72-5ebc-8fee-abe8a469f55d"
-version = "1.0.2"
+version = "1.1.0"
 
 [[PaddedViews]]
 deps = ["OffsetArrays", "Test"]
 git-tree-sha1 = "7da3e7e1a58cffbf10177553ae95f17b92516912"
 uuid = "5432bcbf-9aad-5242-b902-cca2824c8663"
 version = "0.4.2"
+
+[[PhyloTrees]]
+git-tree-sha1 = "ddee0c7e73aab67e2e6b28e4ce836f062b78f63b"
+repo-rev = "master"
+repo-url = "https://github.com/arzwa/PhyloTrees.jl"
+uuid = "864812f6-e012-11e8-24a0-3fa793868ea3"
+version = "1.0.0"
 
 [[Pkg]]
 deps = ["Dates", "LibGit2", "Markdown", "Printf", "REPL", "Random", "SHA", "UUIDs"]
@@ -249,9 +268,9 @@ uuid = "9abbd945-dff8-562f-b5e8-e1ebf5ef1b79"
 
 [[QuartzImageIO]]
 deps = ["ColorTypes", "ColorVectorSpace", "FileIO", "FixedPointNumbers", "ImageCore", "Libdl", "Random", "Test"]
-git-tree-sha1 = "c747a56f223919b157e6cd9dc58d59c560586302"
+git-tree-sha1 = "33dccde77cddfbbf3fe9dbf3b92d2459260368fa"
 uuid = "dca85d43-d64c-5e67-8c65-017450d5d020"
-version = "0.5.0"
+version = "0.5.2"
 
 [[REPL]]
 deps = ["InteractiveUtils", "Markdown", "Sockets"]
@@ -301,14 +320,20 @@ deps = ["LinearAlgebra", "SparseArrays"]
 uuid = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 
 [[StatsBase]]
-deps = ["DataStructures", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "Test"]
-git-tree-sha1 = "723193a13e8078cec6dcd0b8fe245c8bfd81690e"
+deps = ["DataStructures", "DelimitedFiles", "LinearAlgebra", "Missings", "Printf", "Random", "SortingAlgorithms", "SparseArrays", "Statistics", "Test"]
+git-tree-sha1 = "435707791dc85a67d98d671c1c3fcf1b20b00f94"
 uuid = "2913bbd2-ae8a-5f71-8c99-4fb6c76f3a91"
-version = "0.25.0"
+version = "0.29.0"
 
 [[Test]]
 deps = ["Distributed", "InteractiveUtils", "Logging", "Random"]
 uuid = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[[Tokenize]]
+deps = ["Printf", "Test"]
+git-tree-sha1 = "3e83f60b74911d3042d3550884ca2776386a02b8"
+uuid = "0796e94c-ce3b-5d07-9a54-7f471281c624"
+version = "0.5.3"
 
 [[URIParser]]
 deps = ["Test", "Unicode"]
