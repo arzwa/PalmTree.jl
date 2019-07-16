@@ -25,16 +25,16 @@ end
 
 # draw a tree topology with leaflabels
 function drawtree(tree::Tree, labels::Dict; width::Int64=400,
-        height::Int64=300, rect::Bool=true)
+        height::Int64=300, rect::Bool=true, fontsize=6)
     coords, paths = treecoords(tree, width=width, height=height)
     Luxor.Drawing(width, height, :svg)
     Luxor.background("white")
     Luxor.sethue("black")
     Luxor.origin()
     Luxor.setline(1)
-    Luxor.setfont("Lato Italic", 8)
+    Luxor.setfont("Lato Italic", fontsize)
     drawtree(coords, paths, width=width, height=height, rect=rect)
-    leaflabels(labels, coords, fontfamily="monospace", fontsize=6)
+    leaflabels(labels, coords, fontfamily="monospace", fontsize=fontsize)
     Luxor.finish()
     Luxor.preview()
 end
@@ -80,18 +80,19 @@ function drawtree(rtree::ConRecTree; width::Int64=400, height::Int64=300,
 end
 
 # draw a species tree
-function drawtree_whale(stree::Arboreal; width::Int64=400, height::Int64=300,
-        linewidth=1, fname::String="")
+function draw_whaletree(stree::Arboreal; width::Int64=400, height::Int64=300,
+        linewidth=1, fname::String="", fontsize::Int64=8, markersize=10, star=5,
+        starcolor="white", margin=0.8)
     d = fname == "" ? Luxor.Drawing(width, height, :svg) :
         Luxor.Drawing(width, height, :svg, fname)
-    coords, paths = treecoords(stree.tree, width=width, height=height)
+    coords, paths = treecoords(stree.tree, width=width, height=height, margin=margin)
     Luxor.background("white")
     Luxor.sethue("black")
     Luxor.origin()
     Luxor.setline(linewidth)
     drawtree(coords, paths, width=width, height=height)
-    wgdnodes(stree, coords)
-    leaflabels(stree.leaves, coords, fontfamily="Lato italic", fontsize=9)
+    wgdnodes(stree, coords, markersize, starcolor, star)
+    leaflabels(stree.leaves, coords, fontfamily="Lato italic", fontsize=fontsize)
     Luxor.finish()
     Luxor.preview()
 end
@@ -144,11 +145,11 @@ end
 
 # get the tree paths, general (for a PhyloTrees Tree), should just assign a
 # coordinate to every node actually
-function treecoords(tree::Tree; width::Int64=400, height::Int64=300)
+function treecoords(tree::Tree; width::Int64=400, height::Int64=300, margin=0.8)
     leaves = findleaves(tree)
     root = findroots(tree)[1]
     coords = Dict{Int64,Luxor.Point}()
-    Δx = width * 0.8 / 2  # offset x-coordinate
+    Δx = width * margin / 2  # offset x-coordinate
     Δy = height / (length(leaves) + 1)  # vertical space between leaves
     yleaf = -Δy * (length(leaves) / 2)  # initial leaf y coordinate
     xmax = maximum([distance(tree, root, x) for x in leaves])  # maximum distance from root
@@ -242,9 +243,13 @@ function rectreenodes(rtree, coords::Dict; nonretained::Bool=true)
 end
 
 # add node markers for wgd nodes
-function wgdnodes(stree::Arboreal, coords::Dict)
-    for (node, i) in stree.wgd_index
-        Luxor.star(coords[node], 4, 8, 0.5, 0, :fill)
+function wgdnodes(stree::Arboreal, coords::Dict, markersize=4, color="black",
+        star=5)
+    for (node, i) in stree.qindex
+        Luxor.sethue(color)
+        Luxor.star(coords[node], markersize, star, 0.5, 0, :fill)
+        Luxor.sethue("black")
+        Luxor.star(coords[node], markersize, star, 0.5, 0, :stroke)
     end
 end
 

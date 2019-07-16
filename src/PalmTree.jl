@@ -7,7 +7,7 @@ module PalmTree
     using Printf
     using ColorSchemes
 
-    export drawtree, coltree
+    export drawtree, coltree, draw_whaletree
 
     include("main.jl")
 
