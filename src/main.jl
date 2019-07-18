@@ -103,19 +103,19 @@ end
 Draw a species tree with inferred rates and retention rates. `values`
 should be an array with a value at index `i` for branch `i`.
 """
-function coltree_whale(stree::Arboreal, values::Array{Float64};
+function coltree_whale(tree::Arboreal, values::Array{Float64};
         q::Array{Float64}=[], width::Int64=400, height::Int64=300,
         fname::String="")
     d = fname == "" ? Luxor.Drawing(width, height, :svg) :
         Luxor.Drawing(width, height, :svg, fname)
-    coords, paths = treecoords(stree.tree, width=width, height=height)
+    coords, paths = treecoords(tree.tree, width=width, height=height)
     Luxor.sethue("black")
     Luxor.origin()
     Luxor.setline(3)
-    data, nval = process_values(values)
-    coltree_whale(coords, paths, data, stree, width=width, height=height)
-    length(q) > 0 ? wgdnodes(stree, coords, q) : wgdnodes(stree, coords)
-    leaflabels(stree.leaves, coords, fontfamily="Lato italic", fontsize=9)
+    data, nval = process_values(tree.rindex, values)
+    coltree_whale(coords, paths, data, tree, width=width, height=height)
+    length(q) > 0 ? wgdnodes(tree, coords, q) : wgdnodes(tree, coords)
+    leaflabels(tree.leaves, coords, fontfamily="Lato italic", fontsize=9)
     cbar = get_colorbar(width, height, 25)
     draw_colorbar(cbar, nval[1], nval[2])
     Luxor.finish()
@@ -207,7 +207,7 @@ function coltree_whale(coords, paths, values, stree; width::Int64=400,
         height::Int64=300)
     for p in paths
         c2 = haskey(values, p[2]) ? get(ColorSchemes.viridis, values[p[2]]) :
-            get(ColorSchemes.viridis, values[Whale.non_wgd_child(stree, p[2])])
+            get(ColorSchemes.viridis, values[non_wgd_child(stree, p[2])])
         c1 = haskey(values, p[1]) ? get(ColorSchemes.viridis, values[p[1]]) : c2
         p1, p2 = coords[p[1]], coords[p[2]]
         p3 = Luxor.Point(p1.x, p2.y)
@@ -259,7 +259,7 @@ function wgdnodes(stree::Arboreal, coords::Dict, q::Array{Float64};
     Luxor.setfont(fontfamily, fontsize)
     Luxor.sethue("black")
     Luxor.setline(1)
-    for (node, i) in stree.wgd_index
+    for (node, i) in stree.qindex
         q[i] > thresh ? Luxor.box(coords[node], 3, 9, 0, :fill) :
             Luxor.box(coords[node], 2, 8, 0, :stroke)
         i % 2 == 1 ? Δy = -10 : Δy = 10
@@ -300,10 +300,10 @@ function supportvalues(support::Dict, coords::Dict; fontfamily="monospace",
 end
 
 # preprocessing for colortree
-function process_values(values::Array{Float64})
+function process_values(rindex, values::Array{Float64})
     nval = (minimum(values), maximum(values))
     nvalues = (values .- nval[1]) ./ (nval[2] - nval[1])
-    data = Dict(i => nvalues[i] for i in 1:length(nvalues))
+    data = Dict(k => nvalues[i] for (k,i) in rindex)
     return data, nval
 end
 
@@ -343,4 +343,11 @@ function draw_colorbar(cbar, minv, maxv; pad=2)
     p2 = Luxor.Point(cbar[end][2].x + pad, cbar[end][2].y)
     Luxor.settext(s1, p1, valign="center", halign="left")
     Luxor.settext(s2, p2, valign="center", halign="left")
+end
+
+function non_wgd_child(tree, n)
+    while outdegree(tree.tree, n) == 1
+        n = childnodes(tree.tree, n)[1]
+    end
+    return n
 end
