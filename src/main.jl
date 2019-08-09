@@ -105,17 +105,20 @@ should be an array with a value at index `i` for branch `i`.
 """
 function coltree_whale(tree::Arboreal, values::Array{Float64};
         q::Array{Float64}=[], width::Int64=400, height::Int64=300,
-        fname::String="")
+        fname::String="", fontsize=9, linewidth=3, margin=0.8,
+        fontsizeq=8, boxwidth=8)
     d = fname == "" ? Luxor.Drawing(width, height, :svg) :
         Luxor.Drawing(width, height, :svg, fname)
-    coords, paths = treecoords(tree.tree, width=width, height=height)
+    coords, paths = treecoords(tree.tree, width=width, height=height,
+        margin=margin)
     Luxor.sethue("black")
     Luxor.origin()
-    Luxor.setline(3)
+    Luxor.setline(linewidth)
     data, nval = process_values(tree.rindex, values)
     coltree_whale(coords, paths, data, tree, width=width, height=height)
-    length(q) > 0 ? wgdnodes(tree, coords, q) : wgdnodes(tree, coords)
-    leaflabels(tree.leaves, coords, fontfamily="Lato italic", fontsize=9)
+    length(q) > 0 ? wgdnodes(tree, coords, q, fontsize=fontsizeq,
+        boxwidth=boxwidth) : wgdnodes(tree, coords)
+    leaflabels(tree.leaves, coords, fontfamily="Lato italic", fontsize=fontsize)
     cbar = get_colorbar(width, height, 25)
     draw_colorbar(cbar, nval[1], nval[2])
     Luxor.finish()
@@ -255,13 +258,13 @@ end
 
 # add node markers for wgd nodes
 function wgdnodes(stree::Arboreal, coords::Dict, q::Array{Float64};
-        fontfamily="Lato", fontsize=8, thresh=0.1)
+        fontfamily="Lato", fontsize=8, thresh=0.1, boxwidth=8)
     Luxor.setfont(fontfamily, fontsize)
     Luxor.sethue("black")
     Luxor.setline(1)
     for (node, i) in stree.qindex
-        q[i] > thresh ? Luxor.box(coords[node], 3, 9, 0, :fill) :
-            Luxor.box(coords[node], 2, 8, 0, :stroke)
+        q[i] > thresh ? Luxor.box(coords[node], boxwidth, boxwidth, 0, :fill) :
+            Luxor.box(coords[node], boxwidth, boxwidth, 0, :stroke)
         i % 2 == 1 ? Δy = -10 : Δy = 10
         tcoord = Luxor.Point(coords[node].x, coords[node].y + Δy)
         Luxor.settext(string(round(q[i], digits=2)), tcoord,
