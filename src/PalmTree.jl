@@ -1,14 +1,16 @@
-__precompile__()
 
 module PalmTree
 
-    import Luxor
+    using Luxor
     using PhyloTrees
     using Printf
     using ColorSchemes
+    using Parameters
+    import ColorSchemes: RGB
 
-    export drawtree, coltree, draw_whaletree
+    export drawtree, TreeLayout #, coltree, draw_whaletree
 
     include("main.jl")
+    include("core.jl")
 
 end # module

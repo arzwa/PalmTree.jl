@@ -1,49 +1,6 @@
 # A new take on visuzalizations for some tree objects in Whale. In particular, (1) branch colored
 # species trees (with WGD nodes) and (2) reconciled gene trees.
 
-# draw a tree topology
-"""
-    drawtree(tree; [kwargs])
-Draw a phylogenetic tree. Keyword arguments include image width, height,
-linewidth, nodelabels (bool), linewidth and fname (svg file name). tree can
-be of a PhyloTrees tree, RecTree or SpeciesTree.
-"""
-function drawtree(tree::Tree; nodelabels::Bool=false,
-        width::Int64=400, height::Int64=300, rect::Bool=true, linewidth=1, fname::String="")
-    d = fname == "" ? Luxor.Drawing(width, height, :svg) : Luxor.Drawing(width, height, :svg, fname)
-    coords, paths = treecoords(tree, width=width, height=height)
-    Luxor.background("white")
-    Luxor.sethue("black")
-    Luxor.origin()
-    Luxor.setline(linewidth)
-    Luxor.setfont("Lato Italic", 10)
-    drawtree(coords, paths, width=width, height=height, rect=rect)
-    nodelabels ? labelnodes(coords) : nothing
-    Luxor.finish()
-    Luxor.preview()
-end
-
-# draw a tree topology with leaflabels
-function drawtree(tree::Tree, labels::Dict; width::Int64=400,
-        height::Int64=300, rect::Bool=true, fontsize=6)
-    coords, paths = treecoords(tree, width=width, height=height)
-    Luxor.Drawing(width, height, :svg)
-    Luxor.background("white")
-    Luxor.sethue("black")
-    Luxor.origin()
-    Luxor.setline(1)
-    Luxor.setfont("Lato Italic", fontsize)
-    drawtree(coords, paths, width=width, height=height, rect=rect)
-    leaflabels(labels, coords, fontfamily="monospace", fontsize=fontsize)
-    Luxor.finish()
-    Luxor.preview()
-end
-
-function drawtree(tree::LabeledTree; width::Int64=400, height::Int64=300,
-        rect::Bool=true)
-    drawtree(tree.tree, tree.leaves, width=width, height=height, rect=rect)
-end
-
 # draw a reconciled tree
 function drawtree(rtree::RecTree; width::Int64=400, height::Int64=300,
         fname::String="", nonretained::Bool=true, fontsize::Int64=7,
@@ -155,7 +112,7 @@ function treecoords(tree::Tree; width::Int64=400, height::Int64=300, margin=0.8)
     Δx = width * margin / 2  # offset x-coordinate
     Δy = height / (length(leaves) + 1)  # vertical space between leaves
     yleaf = -Δy * (length(leaves) / 2)  # initial leaf y coordinate
-    xmax = maximum([distance(tree, root, x) for x in leaves])  # maximum distance from root
+    xmax = maximum([PhyloTrees.distance(tree, root, x) for x in leaves])  # maximum distance from root
     a = width * 0.7 / xmax  # modifier
     paths = []
 
@@ -163,7 +120,7 @@ function treecoords(tree::Tree; width::Int64=400, height::Int64=300, margin=0.8)
     function walk(node)
         if isleaf(tree, node)
             yleaf += Δy
-            x = distance(tree, root, node) * a - Δx
+            x = PhyloTrees.distance(tree, root, node) * a - Δx
             coords[node] = Luxor.Point(x, yleaf)
             return yleaf
         else
@@ -173,7 +130,7 @@ function treecoords(tree::Tree; width::Int64=400, height::Int64=300, margin=0.8)
                 push!(paths, (node, child))
             end
             y = sum(ychildren) / length(ychildren)
-            x = distance(tree, root, node) * a - Δx
+            x = PhyloTrees.distance(tree, root, node) * a - Δx
             coords[node] = Luxor.Point(x, y)
             return y
         end
