@@ -6,5 +6,6 @@ version = "0.1.0"
 [deps]
 ColorSchemes = "35d6a980-a343-548e-a6ea-1d62b119f2f4"
 Luxor = "ae8d54c2-7ccd-5906-9d76-62fc9837b5bc"
-PhyloTrees = "0d4d4e69-8856-4a2e-902c-8a6c3add14ba"
+NewickTree = "b0a14db8-6308-4ebc-8917-f72cd81f5094"
+Parameters = "d96e819e-fc66-5662-9728-84c9c7592b0a"
 Printf = "de0858da-6303-5e67-8744-51eddeeeb8d7"
