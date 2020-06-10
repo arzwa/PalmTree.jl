@@ -58,21 +58,23 @@ function TreeLayout(n; dim=(400,300), cladogram=false)
     leaves = I[]
     yleaf = -1.
     function walk(n, x)
+        d = distance(n)
+        d = isnan(d) ? 0. : d
         if isleaf(n)
             yleaf += 1.
-            currx = x + distance(n)
+            currx = x + d
             coord[id(n)] = Point(currx, yleaf)
             push!(leaves, id(n))
             return yleaf
         else
             childy = []
-            currx = x + distance(n)
+            currx = x + d
             for c in children(n)
                 push!(childy, walk(c, currx))
                 push!(edges, (id(n), id(c)))
             end
             y = sum(childy)/length(childy)
-            coord[id(n)] = Point(x + distance(n), y)
+            coord[id(n)] = Point(x + d, y)
             return y
         end
     end
@@ -112,22 +114,24 @@ function bbox(tl::TreeLayout)
      Δx=maxx-minx, Δy=maxy-miny)
 end
 
-function drawtree(tl::TreeLayout; color=(x)->RGB())
+function drawtree(tl::TreeLayout; color=(x)->RGB(), bblend=true)
     @unpack coord, edges = tl
     for (a,b) in edges
         corner = Point(coord[a].x, coord[b].y)
         poly([coord[a], corner, coord[b]])
-        setblend(blend(coord[a], corner, color(a), color(b)))
+        bblend ?
+            setblend(blend(coord[a], corner, color(a), color(b))) :
+            sethue(color(b))
         Luxor.strokepath()
     end
 end
 
-function colorbar(pos, len; δ=0.1)
+function colorbar(pos, len, cs; δ=0.1)
     init = deepcopy(pos)
     Δy = δ*len
     for v=0.0:δ:1.0-δ
-        ca = get(ColorSchemes.viridis, 1 - v)
-        cb = get(ColorSchemes.viridis, 1 - v + δ)
+        ca = get(cs, 1 - v)
+        cb = get(cs, 1 - v + δ)
         bl = Luxor.blend(pos, pos + (0, Δy), cb, ca)
         Luxor.line(pos, pos + (0, Δy))
         Luxor.setblend(bl)
@@ -137,9 +141,9 @@ function colorbar(pos, len; δ=0.1)
     return (p1=init, p2=pos)
 end
 
-function nodemap(tl::TreeLayout, f, ks=keys(tl.coord))
-    for k in ks
-        f(k, tl[k])
+function nodemap(tl::TreeLayout, nodes, f::Function)
+    for n in nodes
+        f(n, tl[id(n)])
     end
 end
 
