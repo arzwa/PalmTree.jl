@@ -1,24 +1,16 @@
-# PalmTree.jl
+# # PalmTree.jl
 
-Plot trees using Luxor. Works for abstract tree data structures consisting of
-nodes that implement a `children`, `distance` and `id` function. Allows flexible
-use of the Luxor library.
+# Plot trees using Luxor. Works for abstract tree data structures consisting of
+# nodes that implement a `children`, `distance` and `id` function. Allows flexible
+# use of the Luxor library.
 
-```julia
 using NewickTree, PalmTree, Luxor
 
 outdir  = mkpath(joinpath(@__DIR__, "assets/"))
 outpath = joinpath(outdir, "tree.svg")
 tree = readnw("((A:77.3,B:77.3):16.4,(C:46.9,(D:23.4,E:23.4):23.4):46.9);")
-```
 
-```
-((A:77.3,B:77.3):16.4,(C:46.9,(D:23.4,E:23.4):23.4):46.9);
-```
-
-Draw the tree
-
-```julia
+# Draw the tree
 tl = TreeLayout(tree, dims=(280, 250))
 @svg begin
     origin(Point(10,10))
@@ -29,11 +21,8 @@ tl = TreeLayout(tree, dims=(280, 250))
     nodemap(tl, (k, p)->settext("  "*name(k), p, valign="center"))
     nodemap(tl, (k, p)->rand() < 0.5 ? box(p, 10, 10, :fill) : star(p, 8, 5, 0.5, 4, :fill))
 end 350 300 outpath;
-```
 
-![](docs/assets/tree.svg)
+# ![](docs/assets/tree.svg)
 
----
-
-*This page was generated using [Literate.jl](https://github.com/fredrikekre/Literate.jl).*
-
+using Literate  #src
+Literate.markdown(joinpath(@__DIR__, "README.jl"), joinpath(@__DIR__, "../"), documenter=false, execute=true)  #src
